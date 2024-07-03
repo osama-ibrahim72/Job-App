@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->string('username')->unique();
             $table->string('email')->nullable()->unique();
             $table->integer('dial_code')->default(20);
             $table->unsignedBigInteger('phone')->nullable();

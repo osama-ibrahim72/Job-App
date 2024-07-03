@@ -11,7 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('positions', function (Blueprint $table) {
+            $table->ulid('id')->primary();
+            $table->string('title')->nullable();
+            $table->text('body');
+            $table->foreignIdFor(\App\Models\User::class);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('positions');
     }
 };

@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jobs', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('context_user', function (Blueprint $table) {
+            $table->foreignIdFor(\App\Models\User::class)->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(\App\Models\Context::class)->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('context_user');
     }
 };
