@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(ContextSeeder::class);
-        $user = \App\Models\User::factory()->create([
-            'email' => 'test@example.com',
+        $mgr = \App\Models\User::factory()->create([
+            'email' => 'manger@example.com',
             'email_verified_at' => now(),
             'phone_verified_at' => now(),
             'dial_code' => '20',
@@ -28,6 +28,18 @@ class DatabaseSeeder extends Seeder
             'blocked' => false,
         ]);
 
-        $user->contexts()->syncWithoutDetaching(Context::whereIn('name', ['mgr', 'regular'])->pluck('id')->toArray());
+        $mgr->contexts()->syncWithoutDetaching(Context::whereIn('name', ['mgr'])->pluck('id')->toArray());
+        $reg = \App\Models\User::factory()->create([
+            'email' => 'regular@example.com',
+            'email_verified_at' => now(),
+            'phone_verified_at' => now(),
+            'dial_code' => '20',
+            'phone' => 12345678,
+            'password' => Hash::make('Password!'),
+            'remember_token' => Str::random(10),
+            'blocked' => false,
+        ]);
+
+        $reg->contexts()->syncWithoutDetaching(Context::whereIn('name', ['regular'])->pluck('id')->toArray());
     }
 }

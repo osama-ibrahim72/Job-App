@@ -15,8 +15,10 @@ class LoginController extends Controller
         LoginRequest $request
     )
     {
-        $user = User::where('email',$request->email)->first();
-        if(Hash::check($request->password , $user->password)){
+        $user = User::where('email',$request->email)->whereHas('contexts', function($query){
+            $query->where('name','mgr');
+        })->first();
+        if( $user && Hash::check($request->password , $user->password)){
             $token = $user->createToken($user->id)->plainTextToken;
             return response()->json([
                 'token'=>$token,

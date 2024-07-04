@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api\Regular\Positions;
 
+use App\Events\PositionCreatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Regular\Positions\StorePositionRequest;
 use App\Http\Requests\Api\Regular\Positions\UpdatePositionRequest;
 use App\Http\Resources\Position\PositionResource;
 use App\Models\Position;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -52,8 +54,13 @@ class PositionController extends Controller
         StorePositionRequest $request
     )
     {
+        $position =  Auth::user()->positions()->create($request->validated());
+        $mgrs = User::whereHas('contexts' , function ($query) {
+            $query->where('name', 'mgr');
+        })->get();
+        event(new PositionCreatedEvent($mgrs , $position));
         return PositionResource::make(
-            Auth::user()->positions()->create($request->validated())
+            $position
         )->additional([
             'message' => __('Position created successfully'),
             'status' => Response::HTTP_CREATED
