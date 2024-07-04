@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'as' => 'api.',
-    'namespace' => 'V1'
 ], function() {
 
     /*
