@@ -18,6 +18,7 @@ Route::group([
     | orders. Can add a new supplier with products. Updating info
     */
     Route::group([
+        'as' =>'mgr.',
         'prefix' => 'mgr',
     ], function() {
 
@@ -53,8 +54,8 @@ Route::group([
             Route::group([
                 'as' => 'positions.',
             ], function() {
-                Route::get('positions/', [PositionController::class ,'index'])->name('auth.logout');
-                Route::get('positions/{position}', [PositionController::class ,'index'])->name('auth.logout');
+                Route::get('positions/', [PositionController::class ,'index'])->name('list');
+                Route::get('positions/{position}', [PositionController::class ,'show'])->name('show');
 
             });
 
@@ -70,6 +71,7 @@ Route::group([
     | Adding offers, receiving orders etc..
     */
     Route::group([
+        'as'=>'reg.',
         'prefix' => 'reg',
     ], function() {
         /*
@@ -104,7 +106,13 @@ Route::group([
             Route::group([
                 'as' => 'positions.',
             ], function() {
-                Route::apiResource('positions', \App\Http\Controllers\Api\Regular\Positions\PositionController::class );
+                Route::apiResource('positions', \App\Http\Controllers\Api\Regular\Positions\PositionController::class )->names([
+                    'show'=> 'show',
+                    'index'=>'list',
+                    'store'=>'store',
+                    'destroy'=>'delete',
+                    'update'=>'update'
+                ]);
 
             });
 

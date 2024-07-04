@@ -60,19 +60,30 @@ class PositionController extends Controller
         ]);
     }
 
+
     /**
      * @param UpdatePositionRequest $request
      * @param Position $position
-     * @return PositionResource
+     * @return PositionResource|JsonResponse
      */
     public function update(
         UpdatePositionRequest $request,
         Position $position
     )
     {
-        return PositionResource::make(
-        $position->update($request->validated())
-        );
+        if( $position->update($request->validated())) {
+            return PositionResource::make(
+                $position
+            )->additional([
+                'message' => __('Position Updated successfully'),
+                'status' => Response::HTTP_OK
+            ]);
+        }
+        return response()->json([
+            'message' => __("We couldn't update the Position"),
+            'status' => Response::HTTP_BAD_REQUEST
+        ], Response::HTTP_BAD_REQUEST);
+
     }
 
     /**

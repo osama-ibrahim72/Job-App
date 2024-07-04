@@ -33,7 +33,6 @@ class PositionController extends Controller
         Position $position
     )
     {
-
         return PositionResource::make(
             $position
         )->additional([
