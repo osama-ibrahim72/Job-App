@@ -53,8 +53,8 @@ Route::group([
             Route::group([
                 'as' => 'positions.',
             ], function() {
-                Route::post('positions/', [PositionController::class ,'index'])->name('auth.logout');
-                Route::post('positions/{position}', [PositionController::class ,'index'])->name('auth.logout');
+                Route::get('positions/', [PositionController::class ,'index'])->name('auth.logout');
+                Route::get('positions/{position}', [PositionController::class ,'index'])->name('auth.logout');
 
             });
 
