@@ -104,7 +104,7 @@ Route::group([
             Route::group([
                 'as' => 'positions.',
             ], function() {
-                Route::apiResource('positions/', \App\Http\Controllers\Api\Regular\Positions\PositionController::class );
+                Route::apiResource('positions', \App\Http\Controllers\Api\Regular\Positions\PositionController::class );
 
             });
 
